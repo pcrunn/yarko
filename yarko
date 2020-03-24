@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+
+# api
+get_maintainers() {
+    cat "$1/.yarko/maintainers"
+}
+
+get_branch() {
+    cat "$1/.yarko/branch"
+}
+
+# check for the first argument
+case "$1" in
+
+    # if the first argument is either init or i
+    init | i)
+
+        # if the repo is already initialized
+        if [[ -e '.yarko' ]]; then
+            echo 'Repository already initialized'
+            exit 1
+        fi
+
+        # create the yarko directory
+        mkdir .yarko
+
+        # create the info files
+        echo 'default' > .yarko/branch
+        echo "$(whoami)@$(hostname)" > .yarko/maintainers
+
+        ;;
+
+    # if no arguments matched, print usage
+    *)
+        echo "Usage: $0 (init|i|download|d|upload|u)"
+        ;;
+
+esac
